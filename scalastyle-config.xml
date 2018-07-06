@@ -1,0 +1,741 @@
+<?xml version="1.0"?>
+<scalastyle>
+  <!--
+    http://www.scalastyle.org/rules-1.0.0.html
+
+    The ID values are used for suppressing a check in limited situations, using either a block level comment pair:
+
+      // scalastyle:off ID_GOES_HERE
+      ... code ...
+      // scalastyle:on ID_GOES_HERE
+
+    or a single line suppression (at the end of the line):
+
+      ... code ... // scalastyle:ignore ID_GOES_HERE
+  -->
+  <name>Scalastyle standard configuration</name>
+  <check level="error" enabled="true" class="org.scalastyle.file.FileLengthChecker">
+    <!--
+      Check the number of lines in a file.
+      ID: file.size.limit
+      Justification: Files which are too long can be hard to read and understand.
+    -->
+    <parameters>
+      <parameter name="maxFileLength"><![CDATA[800]]></parameter>
+    </parameters>
+  </check>
+  <check level="warning" enabled="true" class="org.scalastyle.file.FileLineLengthChecker">
+    <!--
+      Check the number of characters in a line.
+      ID: line.size.limit
+      Justification: Lines that are too long can be hard to read and horizontal scrolling is annoying.
+    -->
+    <parameters>
+      <parameter name="ignoreImports"><![CDATA[false]]></parameter>
+      <parameter name="maxLineLength"><![CDATA[160]]></parameter>
+      <parameter name="tabSize"><![CDATA[2]]></parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.file.FileTabChecker">
+    <!--
+      Check that there are no tabs in a file.
+      ID: line.contains.tab
+      Justification: Some say that tabs are evil.
+    -->
+  </check>
+  <check level="warning" enabled="false" class="org.scalastyle.file.HeaderMatchesChecker">
+    <!--
+      Check the first lines of each file matches the text
+      ID: header.matches
+      Justification: A lot of projects require a header with a copyright notice, or they require a license in each file.
+        This check does a simple text comparison between the header and the first lines of the file. You can have
+        multiple lines, but make sure you surround the text with a CDATA section. You can also specify a regular
+        expression, as long as you set the regex parameter to true.
+    -->
+    <parameters>
+      <parameter name="header"><![CDATA[// No copyright required.]]></parameter>
+      <parameter name="regex">false</parameter>
+    </parameters>
+  </check>
+  <check level="warning" enabled="false" class="org.scalastyle.file.IndentationChecker">
+    <!--
+      Checks that lines are indented by a multiple of the tab size.
+      ID: indentation
+      Justification: Code that is not indented consistently can be hard to read.
+    -->
+    <parameters>
+      <parameter name="classParamIndentSize">2</parameter>
+      <parameter name="methodParamIndentSize">2</parameter>
+      <parameter name="tabSize">2</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.file.NewLineAtEofChecker">
+    <!--
+      Checks that a file ends with a newline character.
+      ID: newline.at.eof
+      Justification: Some version control systems don't cope well with files which don't end with a newline character.
+    -->
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.file.NoNewLineAtEofChecker">
+    <!--
+      Checks that a file does not end with a newline character.
+      ID: no.newline.at.eof
+      Justification: Because Mirco Dotta wanted it.
+      MUST BE DISABLED.
+    -->
+  </check>
+  <check level="error" enable="true" class="org.scalastyle.file.RegexChecker">
+    <!--
+      Checks that a regular expression cannot be matched; if found reports this.
+      ID: regex
+      Justification: Some checks can be carried out with a regular expression.
+    -->
+    <parameters>
+      <parameter name="regex"><![CDATA[(?m)^\s*$(\r|)\n^\s*$(\r|)\n]]></parameter>
+      <parameter name="line">false</parameter>
+    </parameters>
+    <customMessage>No double blank lines</customMessage>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.file.WhitespaceEndOfLineChecker">
+    <!--
+      Check that there is no trailing whitespace at the end of lines.
+      ID: whitespace.end.of.line
+      Justification: Whitespace at the end of a line can cause problems when diffing between files or between versions.
+    -->
+    <parameters>
+      <parameter name="ignoreWhitespaceLines">false</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.BlockImportChecker">
+    <!--
+      Checks that block imports are not used.
+      ID: block.import
+      Justification: Block imports (e.g. `import a.{b, c}`) can lead to annoying merge errors in large code bases that
+        are maintained by lot of developers. This rule ensures that only single imports are used in order to minimize
+        merge errors in import declarations.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.ClassNamesChecker">
+    <!--
+      Check that class names match a regular expression.
+      ID: class.name
+      Justification: The Scala style guide recommends that class names conform to certain standards.
+    -->
+    <parameters>
+      <parameter name="regex"><![CDATA[[A-Z][A-Za-z]*]]></parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.ClassTypeParameterChecker">
+    <!--
+      Checks that type parameter to a class matches a regular expression.
+      ID: class.type.parameter.name
+      Justification: Scala generic type names are generally single upper case letters. This check checks for classes and
+        traits. Note that this check only checks the innermost type parameter, to allow for `List[T]`.
+    -->
+    <parameters>
+      <parameter name="regex"><![CDATA[^[A-Z_]$]]></parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.CovariantEqualsChecker">
+    <!--
+      Check that classes and objects do not define equals without overriding `equals(java.lang.Object)`.
+      ID: covariant.equals
+      Justification: Mistakenly defining a covariant `equals()` method without overriding method
+        `equals(java.lang.Object)` can produce unexpected runtime behaviour.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.CyclomaticComplexityChecker">
+    <!--
+      Checks that the cyclomatic complexity of a method does exceed a value.
+      ID: cyclomatic.complexity
+      Justification: If the code is too complex, then this can make code hard to read.
+    -->
+    <parameters>
+      <parameter name="countCases">true</parameter>
+      <parameter name="maximum">10</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.DeprecatedJavaChecker">
+    <!--
+      Checks that Java `@Deprecated` is not used, Scala `@deprecated` should be used instead.
+      ID: deprecated.java
+      Justification: You should be using the Scala `@deprecated` instead.
+    -->
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.DisallowSpaceAfterTokenChecker">
+    <!--
+      Disallow space after certain token(s).
+      ID: disallow.space.after.token
+      Justification: Correct formatting can help readability.
+    -->
+    <parameters>
+      <parameter name="tokens">LPAREN</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.DisallowSpaceBeforeTokenChecker">
+    <!--
+      Disallow space before certain token(s).
+      ID: disallow.space.before.token
+      Justification: Correct formatting can help readability.
+    -->
+    <parameters>
+      <parameter name="tokens">COLON, COMMA, RPAREN</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.EmptyClassChecker">
+    <!--
+      If a class/trait has no members, the braces are unnecessary.
+      ID: empty.class
+      Justification: If a class / trait has no members, then braces are unnecessary, and can be removed.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.EmptyInterpolatedStringChecker">
+    <!--
+      The interpolation for this string literal is not necessary.
+      ID: empty.interpolated.strings
+      Justification: Empty interpolated strings are harder to read and not necessary.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.EnsureSingleSpaceAfterTokenChecker">
+    <!--
+      Ensure single space after certain token(s).
+      ID: ensure.single.space.after.token
+      Justification: Correct formatting can help readability.
+    -->
+    <parameters>
+      <parameter name="tokens">COLON, COMMA, IF</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.EnsureSingleSpaceBeforeTokenChecker">
+    <!--
+      Ensure single space before certain token(s).
+      ID: ensure.single.space.before.token
+      Justification: Correct formatting can help readability.
+    -->
+    <parameters>
+      <parameter name="tokens"></parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.EqualsHashCodeChecker">
+    <!--
+      Check that if a class implements either `equals` or `hashCode`, it should implement the other.
+      ID: equals.hash.code
+      Justification: Defining either `equals` or `hashCode` in a class without defining the other is a known source of
+        bugs. Usually, when you define one, you should also define the other.
+    -->
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.FieldNamesChecker">
+    <!--
+      Check that field names match a regular expression.
+      ID: field.name
+      Justification: A consistent naming convention for field names can make code easier to read and understand:
+        - Constants in an object must be in `PascalCase` a.k.a `TitleCase`.
+        - Fields in a class must be in `camelCase`.
+    -->
+    <parameters>
+      <parameter name="objectFieldRegex"><![CDATA[^[A-Z][A-Za-z0-9]*$]]></parameter>
+      <parameter name="regex"><![CDATA[^[a-z][A-Za-z]*$]]></parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.ForBraceChecker">
+    <!--
+      Checks that braces are used in for comprehensions.
+      ID: for.brace
+      Justification: Usage of braces (rather than parentheses) within a `for` comprehension means that you don't have to
+        specify a semi-colon at the end of every line:
+
+        ```
+        for {      // braces
+          t <- List(1,2,3)
+          if (i % 2 == 0)
+        } yield t
+        ```
+
+        is preferred to:
+
+        ```
+        for (      // parentheses
+          t <- List(1,2,3);
+          if (i % 2 == 0)
+        ) yield t
+        ```
+
+        To fix it, replace the `()` with `{}`. And then remove the `;` at the end of the lines.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.IfBraceChecker">
+    <!--
+      Checks that `if` statements have braces.
+      ID: if.brace
+      Justification: Some people find `if` clauses with braces easier to read.
+    -->
+    <parameters>
+      <parameter name="singleLineAllowed">true</parameter>
+      <parameter name="doubleLineAllowed">false</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.IllegalImportsChecker">
+    <!--
+      Check that a class does not import certain classes.
+      ID: illegal.imports
+      Justification: Use of some classes can be discouraged for a project. For instance, use of `sun._` is generally
+        discouraged because they are internal to the JDK and can be changed.
+    -->
+    <parameters>
+      <parameter name="illegalImports"><![CDATA[sun._,java.awt._]]></parameter>
+    </parameters>
+  </check>
+  <check level="info" enabled="true" class="org.scalastyle.scalariform.ImportGroupingChecker">
+    <!--
+      Checks that imports are grouped together, not throughout the file.
+      ID: import.grouping
+      Justification: If imports are spread throughout the file, knowing what is in scope at any one place can be
+        difficult to work out.
+    -->
+  </check>
+  <check level="info" enabled="true" class="org.scalastyle.scalariform.ImportOrderChecker">
+    <!--
+      Checks that imports are grouped and ordered according to the style configuration.
+      ID: import.ordering
+      Justification: Consistent import ordering improves code readability and reduces unrelated changes in patches.
+    -->
+    <parameters>
+      <parameter name="groups">java,others,scala</parameter>
+      <parameter name="group.java">javax?\..+</parameter>
+      <parameter name="group.scala">scala\..+</parameter>
+      <parameter name="group.others">.+</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.LowercasePatternMatchChecker">
+    <!--
+      Checks that a case statement pattern match is not lower case, as this can cause confusion.
+      ID: lowercase.pattern.match
+      Justification: A lower case pattern match clause with no other tokens is the same as `_`; this is not true for
+        patterns which start with an upper case letter. This can cause confusion, and may not be what was intended:
+
+        ```
+        val foo = "foo"
+        val Bar = "bar"
+        "bar" match { case Bar => "we got bar" }   // result = "we got bar"
+        "bar" match { case foo => "we got foo" }   // result = "we got foo"
+        "bar" match { case `foo` => "we got foo" } // result = MatchError
+        ```
+
+        This checker raises a warning with the second match. To fix it, use an identifier which starts with an upper case
+        letter (best), use `case _` or, if you wish to refer to the value, add a type `: Any`
+
+        ```
+        val lc = "lc"
+        "something" match { case lc: Any => "lc" } // result = "lc"
+        "something" match { case _ => "lc" } // result = "lc"
+        ```
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.MagicNumberChecker">
+    <!--
+      Checks for use of magic numbers.
+      ID: magic.number
+      Justification: Replacing a magic number with a named constant can make code easier to read and understand, and can
+        avoid some subtle bugs.
+
+        A simple assignment to a val is not considered to be a magic number, for example:
+
+        ```
+        val foo = 4
+        ```
+
+        is not a magic number, but
+
+        ```
+        var foo = 4
+        ```
+
+        is considered to be a magic number.
+    -->
+    <parameters>
+      <parameter name="ignore">-1,0,1,2,3</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.MethodArgumentNamesChecker">
+    <!--
+      Check that method argument names match a regular expression.
+      ID: method.argument.name
+      Justification: The Scala style guide recommends that method argument names conform to certain standards.
+    -->
+    <parameters>
+      <parameter name="regex"><![CDATA[^[a-z][A-Za-z0-9]*$]]></parameter>
+      <parameter name="ignoreRegex">^$</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.MethodLengthChecker">
+    <!--
+      Checks that methods do not exceed a maximum length.
+      ID: method.length
+      Justification: Long methods can be hard to read and understand.
+    -->
+    <parameters>
+      <parameter name="ignoreComments">true</parameter>
+      <parameter name="maxLength">50</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.MethodNamesChecker">
+    <!--
+      Check that method names match a regular expression.
+      ID: method.name
+      Justification: The Scala style guide recommends that method names conform to certain standards. If the methods are
+        overriding another method, and the overridden method cannot be changed, then use the `ignoreOverride` parameter.
+    -->
+    <parameters>
+      <!--
+        As well as the standard `pascalCase` method names, this regex allows for operator methods named `*` and `?`
+        (used with Slick shaped types).
+      -->
+      <parameter name="ignoreOverride">false</parameter>
+      <parameter name="ignoreRegex"><![CDATA[^.*$]]></parameter>
+      <parameter name="regex"><![CDATA[^\*|\?|([a-z][A-Za-z0-9]*(_=)?)$]]></parameter>
+    </parameters>
+  </check>
+  <check level="info" enabled="true" class="org.scalastyle.scalariform.MultipleStringLiteralsChecker">
+    <!--
+      Checks that a string literal does not appear multiple times.
+      ID: multiple.string.literals
+      Justification: Code duplication makes maintenance more difficult, so it can be better to replace the multiple
+        occurrences with a constant.
+    -->
+    <parameters>
+      <parameter name="allowed">5</parameter>
+      <!--
+        Workaround for false positive due to string interpolation: make second quote conditional; see
+        https://github.com/scalastyle/scalastyle/issues/100#issuecomment-87434823
+      -->
+      <parameter name="ignoreRegex"><![CDATA[^""?$]]></parameter>
+    </parameters>
+  </check>
+  <check level="warning" enabled="false" class="org.scalastyle.scalariform.NamedArgumentChecker">
+    <!--
+      Checks that argument literals are named.
+      ID: named.argument
+      Justification: Nameless literals make code harder to understand (consider `updateEntity(1, true)` and
+        `updateEntity(id = 1, enabled = true)`).
+    -->
+    <parameters>
+      <parameter name="checkString">true</parameter>
+      <parameter name="ignoreMethod">^set.+$</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NoCloneChecker">
+    <!--
+      Check that classes and objects do not define the `clone()` method.
+      ID: no.clone
+      Justification: The `clone` method is difficult to get right. You can use the `copy` constructor of case classes
+      rather than implementing `clone`. For more information on `clone()`, see "Effective Java" by Joshua Bloch.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NoFinalizeChecker">
+    <!--
+      Check that classes and objects do not define the `finalize()` method.
+      ID: no.finalize
+      Justification: `finalize()` is called when the object is garbage collected, and garbage collection is not
+      guaranteed to happen. It is therefore unwise to rely on code in the `finalize()` method.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NoWhitespaceAfterLeftBracketChecker">
+    <!--
+      No whitespace after left bracket `[`.
+      ID: no.whitespace.after.left.bracket
+      Justification: If there is whitespace after a left bracket, this can be confusing to the reader.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NoWhitespaceBeforeLeftBracketChecker">
+    <!--
+      No whitespace before left bracket `[`.
+      ID: no.whitespace.before.left.bracket
+      Justification: If there is whitespace before a left bracket, this can be confusing to the reader.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NoWhitespaceBeforeRightBracketChecker">
+    <!--
+      No whitespace before right bracket `]`.
+      ID: no.whitespace.before.right.bracket
+      Justification: If there is whitespace before a right bracket, this can be confusing to the reader.
+    -->
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.NonASCIICharacterChecker">
+    <!--
+      Some editors are unfriendly to non-ASCII characters.
+      ID: non.ascii.character.disallowed
+      Justification: Scala allows unicode characters as operators and some editors misbehave when they see non-ASCII
+        characters.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NotImplementedErrorUsage">
+    <!--
+      Checks that the code does not have `???` operators.
+      ID: not.implemented.error.usage
+      Justification: The `???` operator denotes that an implementation is missing. This rule helps to avoid potential
+        runtime errors because of not-implemented code.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NullChecker">
+    <!--
+      Check that `null` is not used
+      ID: null
+      Justification: Scala discourages use of `nulls`, preferring `Option`.
+    -->
+    <parameters>
+      <parameter name="allowNullChecks">true</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NumberOfMethodsInTypeChecker">
+    <!--
+      Check that a class / trait / object does not have too many methods.
+      ID: number.of.methods
+      Justification: If a type declares too many methods, this can be an indication of bad design.
+    -->
+    <parameters>
+      <parameter name="maxMethods">30</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.NumberOfTypesChecker">
+    <!--
+      Checks that there are not too many types declared in a file.
+      ID: number.of.types
+      Justification: Too many classes/objects defined in a single file can make the code difficult to understand.
+    -->
+    <parameters>
+      <parameter name="maxTypes">30</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.ObjectNamesChecker">
+    <!--
+      Check that object names match a regular expression.
+      ID: object.name
+      Justification: The Scala style guide recommends that object names conform to certain standards.
+    -->
+    <parameters>
+      <parameter name="regex"><![CDATA[[A-Z][A-Za-z]*]]></parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.OverrideJavaChecker">
+    <!--
+      Checks that Java `@Override` is not used.
+      ID: override.java
+      Justification: You should be using the Scala `override` keyword instead.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.PackageNamesChecker">
+    <!--
+      Check that package names match a regular expression
+      ID: package.name
+      Justification: The Scala style guide recommends that package names conform to certain standards.
+    -->
+    <parameters>
+      <parameter name="regex"><![CDATA[^[a-z][A-Za-z]*$]]></parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.PackageObjectNamesChecker">
+    <!--
+      Check that package object names match a regular expression.
+      ID: package.object.name
+      Justification: The Scala style guide recommends that package object names conform to certain standards.
+    -->
+    <parameters>
+      <parameter name="regex"><![CDATA[^[a-z][A-Za-z]*$]]></parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.ParameterNumberChecker">
+    <!--
+      Maximum number of parameters for a method.
+      ID: parameter.number
+      Justification: A method which has more than a certain number of parameters can be hard to understand. NOTE: This
+        number combines implicits and other curried parameters; each parenthesis group is NOT counted separately.
+    -->
+    <parameters>
+      <parameter name="maxParameters">8</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.PatternMatchAlignChecker">
+    <!--
+      Check that pattern match arrows align.
+      ID: pattern.match.align
+      Justification: Correct formatting can help readability.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.ProcedureDeclarationChecker">
+    <!--
+      Use a `: Unit =` for procedure declarations.
+      ID: procedure.declaration
+      Justification: A procedure style declaration can cause confusion - the developer may have simply forgotten to add
+        a `=`, and now their method returns `Unit` rather than the inferred type:
+
+        ```
+        def foo() { println("hello"); 5 }
+        def foo() = { println("hello"); 5 }
+        ```
+
+        This checker raises a warning with the first line. To fix it, use an explicit return type, or add a `=` before
+        the body.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.PublicMethodsHaveTypeChecker">
+    <!--
+      Check that a method has an explicit return type, it is not inferred.
+      ID: public.methods.have.type
+      Justification: A public method declared on a type is effectively an API declaration. Explicitly declaring a return
+        type means that other code which depends on that type won't break unexpectedly.
+    -->
+    <parameters>
+      <parameter name="ignoreOverride">false</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.RedundantIfChecker">
+    <!--
+      Checks that if expressions are not redundant, i.e. easily replaced by a variant of the condition.
+      ID: if.redundant
+      Justification: `if` expressions with boolean constants in both branches can be eliminated without affecting
+        readability. Prefer simply `cond` to `if (cond) true else false`, and `!cond` to `if (cond) false else true`.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.ReturnChecker">
+    <!--
+      Check that `return` is not used.
+      ID: return
+      Justification: Use of `return` is not usually necessary in Scala. In fact, use of `return` can discourage a
+        functional style of programming.
+    -->
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.ScalaDocChecker">
+    <!--
+      Checks that the ScalaDoc on documentable members is well-formed.
+      ID: scaladoc
+      Justification: Scaladoc is generally considered a good thing. Within reason.
+    -->
+    <parameters>
+      <parameter name="ignoreOverride">false</parameter>
+      <parameter name="ignoreRegex"><![CDATA[^$]]></parameter>
+      <parameter name="ignoreTokenTypes"><![CDATA[^$]]></parameter>
+      <parameter name="indentStyle">anydoc</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.SimplifyBooleanExpressionChecker">
+    <!--
+      Boolean expression can be simplified.
+      ID: simplify.boolean.expression
+      Justification: A boolean expression which can be simplified can make code easier to read.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.SpaceAfterCommentStartChecker">
+    <!--
+      Checks for a space after the start of the comment.
+      ID: space.after.comment.start
+      Justification: To bring consistency with how comments should be formatted, include a
+        space immediately after the beginning of the comment.
+
+        ```
+        package foobar
+
+        object Foobar {
+        /**WRONG
+        *
+        */
+        /** Correct*/
+        val d = 2 /*Wrong*/ //Wrong
+        /**
+        * Correct
+        */
+        val e = 3/** Correct*/ // Correct
+}
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.SpacesAfterPlusChecker">
+    <!--
+      Check that the plus sign is followed by a space.
+      ID: spaces.after.plus
+      Justification: An expression with spaces around `+` can be easier to read.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.SpacesBeforePlusChecker">
+    <!--
+      Check that the plus sign is preceded by a space.
+      ID: spaces.before.plus
+      Justification: An expression with spaces around `+` can be easier to read.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.StructuralTypeChecker">
+    <!--
+      Check that structural types are not used.
+      ID: structural.type
+      Justification: Structural types in Scala can use reflection - this can have unexpected performance consequences.
+        Warning: This check can also wrongly pick up type lamdbas and other such constructs. This checker should be used
+        with care. You always have the alternative of the scalac checking for structural types.
+    -->
+  </check>
+  <check level="info" enabled="false" class="org.scalastyle.scalariform.TodoCommentChecker">
+    <!--
+      Check for use of TODO/FIXME single line comments.
+      ID: todo.comment
+      Justification: Some projects may consider TODO or FIXME comments in a code bad style. They would rather that you
+        fix the problem.
+    -->
+    <parameters>
+      <parameter name="words"><![CDATA[FIXME|HACK|TODO]]></parameter>
+    </parameters>
+  </check>
+  <check level="warning" enabled="false" class="org.scalastyle.scalariform.TokenChecker">
+    <!--
+      Checks that a regular expression cannot be matched in a token, if found reports this.
+      ID: token
+      Justification: Some checks can be carried by just the presence of a particular token.
+    -->
+    <parameters>
+      <parameter name="regex"><![CDATA[println]]></parameter>
+    </parameters>
+    <customMessage>Avoid println</customMessage>
+  </check>
+  <check level="info" enabled="false" class="org.scalastyle.scalariform.UnderscoreImportChecker">
+    <!--
+      Avoid wildcard imports
+      ID: underscore.import
+      Justification: Importing all classes from a package or static members from a class leads to tight coupling between
+        packages or classes and might lead to problems when a new version of a library introduces name clashes.
+    -->
+    <parameters>
+      <parameter name="ignoreRegex">collection\.JavaConverters\._|scala\.concurrent\.duration\._</parameter>
+    </parameters>
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.UppercaseLChecker">
+    <!--
+      Checks that if a `long` literal is used, then an uppercase `L` is used.
+      ID: uppercase.l
+      Justification: A lowercase L (`l`) can look similar to a number 1 with some fonts.
+    -->
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.VarFieldChecker">
+    <!--
+      Checks that classes and objects do not define mutable fields.
+      ID: var.field
+      Justification: `var` (mutable fields) are deprecated if you're using a strict functional style.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.VarLocalChecker">
+    <!--
+      Checks that functions do not define mutable variables.
+      ID: var.local
+      Justification: `var` (mutable local variables) loops are deprecated if you're using a strict functional style.
+    -->
+  </check>
+  <check level="error" enabled="false" class="org.scalastyle.scalariform.WhileChecker">
+    <!--
+      Checks that while is not used.
+      ID: while
+      Justification: `while` loops are deprecated if you're using a strict functional style.
+    -->
+  </check>
+  <check level="error" enabled="true" class="org.scalastyle.scalariform.XmlLiteralChecker">
+    <!--
+      Check that XML literals are not used.
+      ID: xml.literal
+      Justification: Some projects prefer not to have XML literals. They could use a templating engine instead.
+    -->
+  </check>
+</scalastyle>
