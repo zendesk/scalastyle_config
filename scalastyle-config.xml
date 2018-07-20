@@ -302,8 +302,8 @@
     <parameters>
       <parameter name="groups">java,others,scala</parameter>
       <parameter name="group.java">javax?\..+</parameter>
+      <parameter name="group.others">^(?!scala\.|javax?\.).+</parameter>
       <parameter name="group.scala">scala\..+</parameter>
-      <parameter name="group.others">.+</parameter>
     </parameters>
   </check>
   <check level="error" enabled="true" class="org.scalastyle.scalariform.LowercasePatternMatchChecker">
