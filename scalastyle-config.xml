@@ -395,12 +395,14 @@
       <parameter name="regex"><![CDATA[^\*|\?|([a-z][A-Za-z0-9]*(_=)?)$]]></parameter>
     </parameters>
   </check>
-  <check level="info" enabled="true" class="org.scalastyle.scalariform.MultipleStringLiteralsChecker">
+  <check level="info" enabled="false" class="org.scalastyle.scalariform.MultipleStringLiteralsChecker">
     <!--
       Checks that a string literal does not appear multiple times.
       ID: multiple.string.literals
       Justification: Code duplication makes maintenance more difficult, so it can be better to replace the multiple
         occurrences with a constant.
+      NOTE: This check has been disabled because annotation parameters are included in the count, and these can be
+            more verbose to replace with a constant. ref: https://stackoverflow.com/a/47721108/41321
     -->
     <parameters>
       <parameter name="allowed">5</parameter>
