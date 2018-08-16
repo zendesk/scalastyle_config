@@ -530,7 +530,7 @@
       Justification: The Scala style guide recommends that package names conform to certain standards.
     -->
     <parameters>
-      <parameter name="regex"><![CDATA[^[a-z][A-Za-z]*$]]></parameter>
+      <parameter name="regex"><![CDATA[^[a-z][A-Za-z_]*$]]></parameter>
     </parameters>
   </check>
   <check level="error" enabled="true" class="org.scalastyle.scalariform.PackageObjectNamesChecker">
@@ -540,7 +540,7 @@
       Justification: The Scala style guide recommends that package object names conform to certain standards.
     -->
     <parameters>
-      <parameter name="regex"><![CDATA[^[a-z][A-Za-z]*$]]></parameter>
+      <parameter name="regex"><![CDATA[^[a-z][A-Za-z_]*$]]></parameter>
     </parameters>
   </check>
   <check level="error" enabled="true" class="org.scalastyle.scalariform.ParameterNumberChecker">
