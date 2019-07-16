@@ -293,11 +293,13 @@
         difficult to work out.
     -->
   </check>
-  <check level="info" enabled="true" class="org.scalastyle.scalariform.ImportOrderChecker">
+  <check level="info" enabled="false" class="org.scalastyle.scalariform.ImportOrderChecker">
     <!--
       Checks that imports are grouped and ordered according to the style configuration.
       ID: import.ordering
       Justification: Consistent import ordering improves code readability and reduces unrelated changes in patches.
+      NOTE: This check is now disabled, to minimize developer pain due to IntelliJ's inconsistent sorting; for details
+            see: https://zendesk.atlassian.net/browse/BOLT-1768
     -->
     <parameters>
       <parameter name="groups">java,others,scala</parameter>
@@ -387,12 +389,15 @@
     -->
     <parameters>
       <!--
-        As well as the standard `pascalCase` method names, this regex allows for operator methods named `*` and `?`
-        (used with Slick shaped types).
+        As well as the standard `pascalCase` method names, this regex allows for:
+        - operator methods named `*` and `?` (used with Slick shaped types).
+        - pascalCase methods with a `_=` suffix for setters in Finagle (for well-known headers in a message).
+        - backtick-escaped names that would otherwise cause a compiler error; usually in case classes for JSON-parsing
+          compatibility. May contain dashes and underscores.
       -->
       <parameter name="ignoreOverride">false</parameter>
       <parameter name="ignoreRegex"><![CDATA[^.*$]]></parameter>
-      <parameter name="regex"><![CDATA[^\*|\?|([a-z][A-Za-z0-9]*(_=)?)$]]></parameter>
+      <parameter name="regex"><![CDATA[^(\*|\?|([a-z][A-Za-z0-9]*(_=)?)|(`[a-z][_A-Za-z0-9\-]*?`))$]]></parameter>
     </parameters>
   </check>
   <check level="info" enabled="true" class="org.scalastyle.scalariform.MultipleStringLiteralsChecker">
